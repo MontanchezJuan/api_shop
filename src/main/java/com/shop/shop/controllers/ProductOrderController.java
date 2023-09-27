@@ -1,12 +1,65 @@
 package com.shop.shop.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.shop.shop.models.ProductOrder;
+import com.shop.shop.repositories.ProductOrderRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/clients")
+@RequestMapping("api/product-order")
 public class ProductOrderController {
-    
+    @Autowired
+    private ProductOrderRepository productOrderRepository; // Cambiado a productOrderRepository
+
+    @GetMapping("")
+    public List<ProductOrder> index() {
+        return this.productOrderRepository.findAll();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public ProductOrder store(@RequestBody ProductOrder newProductOrder) {
+        return this.productOrderRepository.save(newProductOrder);
+    }
+
+    @GetMapping("{id}")
+    public ProductOrder show(@PathVariable String id){
+        ProductOrder productOrder=this.productOrderRepository
+                .findById(id)
+                .orElse(null);
+        return productOrder;
+    }
+
+    @PutMapping("{id}")
+    public ProductOrder update(@PathVariable String id, @RequestBody ProductOrder theNewProductOrder) {
+        ProductOrder theActualProductOrder = this.productOrderRepository.findById(id).orElse(null);
+        if (theActualProductOrder != null) {
+            return this.productOrderRepository.save(theActualProductOrder);
+        } else {
+            return null;
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("{id}")
+    public void destroy(@PathVariable String id) {
+        ProductOrder theActualProductOrder = this.productOrderRepository.findById(id).orElse(null);
+        if (theActualProductOrder != null) {
+            this.productOrderRepository.delete(theActualProductOrder);
+        }
+    }
 }
