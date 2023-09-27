@@ -38,8 +38,8 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public Product show(@PathVariable String id){
-        Product Product=this.productRepository
+    public Product show(@PathVariable String id) {
+        Product Product = this.productRepository
                 .findById(id)
                 .orElse(null);
         return Product;

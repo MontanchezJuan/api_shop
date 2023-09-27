@@ -14,8 +14,8 @@ public class Delivery {
 
     private String name;
 
-    // @DBRef
-    // private Order order;
+    @DBRef
+    private Order order;
 
     public Delivery() {
     }
@@ -40,11 +40,11 @@ public class Delivery {
         this.name = name;
     }
 
-    // public Order getOrder() {
-    // return order;
-    // }
+    public Order getOrder() {
+        return order;
+    }
 
-    // public void setOrder(Order order) {
-    // this.order = order;
-    // }
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }

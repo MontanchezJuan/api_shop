@@ -15,8 +15,8 @@ public class CategoryProduct {
     @DBRef
     private Category category;
 
-    // @DBRef
-    // private Product product;
+    @DBRef
+    private Product product;
 
     public CategoryProduct() {
 
@@ -30,11 +30,11 @@ public class CategoryProduct {
         this.category = category;
     }
 
-    // public Product getProduct() {
-    // return product;
-    // }
+    public Product getProduct() {
+        return product;
+    }
 
-    // public void setProduct(Product product) {
-    // this.product = product;
-    // }
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

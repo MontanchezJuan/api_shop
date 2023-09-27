@@ -37,8 +37,8 @@ public class ProductOrderController {
     }
 
     @GetMapping("{id}")
-    public ProductOrder show(@PathVariable String id){
-        ProductOrder productOrder=this.productOrderRepository
+    public ProductOrder show(@PathVariable String id) {
+        ProductOrder productOrder = this.productOrderRepository
                 .findById(id)
                 .orElse(null);
         return productOrder;

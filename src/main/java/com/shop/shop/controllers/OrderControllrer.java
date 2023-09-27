@@ -21,7 +21,7 @@ import com.shop.shop.repositories.OrderRepository;
 @RestController
 @RequestMapping("api/orders")
 public class OrderControllrer {
-        @Autowired
+    @Autowired
     private OrderRepository orderRepository; // Cambiado a orderRepository
 
     @GetMapping("")
@@ -37,8 +37,8 @@ public class OrderControllrer {
     }
 
     @GetMapping("{id}")
-    public Order show(@PathVariable String id){
-        Order order=this.orderRepository
+    public Order show(@PathVariable String id) {
+        Order order = this.orderRepository
                 .findById(id)
                 .orElse(null);
         return order;
