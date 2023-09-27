@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shop.shop.models.Order;
+import com.shop.shop.models.Product;
 import com.shop.shop.models.ProductOrder;
+import com.shop.shop.repositories.OrderRepository;
 import com.shop.shop.repositories.ProductOrderRepository;
+import com.shop.shop.repositories.ProductRepository;
 
 @CrossOrigin
 @RestController
@@ -25,29 +29,46 @@ public class ProductOrderController {
     @Autowired
     private ProductOrderRepository productOrderRepository; // Cambiado a productOrderRepository
 
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+
     @GetMapping("")
     public List<ProductOrder> index() {
         return this.productOrderRepository.findAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public ProductOrder store(@RequestBody ProductOrder newProductOrder) {
-        return this.productOrderRepository.save(newProductOrder);
+    @PostMapping("product/{product_id}/order/{order_id}")
+    public ProductOrder store(@PathVariable String product_id, @PathVariable String order_id) {
+        Product theActualProduct = this.productRepository.findById(product_id).orElse(null);
+        Order theActualOrder = this.orderRepository.findById(order_id).orElse(null);
+         if (theActualProduct != null && theActualOrder != null) {
+            ProductOrder newProductOrder = new ProductOrder();
+            newProductOrder.setProduct(theActualProduct);
+            newProductOrder.setOrder(theActualOrder);
+            return this.productOrderRepository.save(newProductOrder);
+        } else {
+            return null;
+        }
     }
 
     @GetMapping("{id}")
-    public ProductOrder show(@PathVariable String id) {
-        ProductOrder productOrder = this.productOrderRepository
-                .findById(id)
-                .orElse(null);
+    public ProductOrder getOne(@PathVariable String id) {
+        ProductOrder productOrder = this.productOrderRepository.findById(id).orElse(null);
         return productOrder;
     }
 
-    @PutMapping("{id}")
-    public ProductOrder update(@PathVariable String id, @RequestBody ProductOrder theNewProductOrder) {
+    @PutMapping("{id}/product/{product_id}/order/{order_id}")
+    public ProductOrder update(@PathVariable String id, @PathVariable String product_id,
+            @PathVariable String order_id, @RequestBody ProductOrder NewProductOrder) {
+        Product theActualProduct = this.productRepository.findById(product_id).orElse(null);
+        Order theActuaOrder = this.orderRepository.findById(order_id).orElse(null);
         ProductOrder theActualProductOrder = this.productOrderRepository.findById(id).orElse(null);
-        if (theActualProductOrder != null) {
+        if (theActualProduct != null && theActualProduct != null && theActualProductOrder != null) {
+            theActualProductOrder.setProduct(theActualProduct);
+            theActualProductOrder.setOrder(theActuaOrder);
             return this.productOrderRepository.save(theActualProductOrder);
         } else {
             return null;

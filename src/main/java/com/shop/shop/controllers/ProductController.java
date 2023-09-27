@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+
 import com.shop.shop.models.Product;
 import com.shop.shop.repositories.ProductRepository;
 
@@ -36,6 +38,11 @@ public class ProductController {
         // Lógica para crear un nuevo Product
         return this.productRepository.save(newProduct);
     }
+    @GetMapping("{id}")
+    public Product getOne(@PathVariable String id) {
+        Product product = this.productRepository.findById(id).orElse(null);
+        return product;
+    }
 
     @GetMapping("{id}")
     public Product show(@PathVariable String id) {
@@ -49,6 +56,8 @@ public class ProductController {
     public Product update(@PathVariable String id, @RequestBody Product theNewProduct) {
         Product theActualProduct = this.productRepository.findById(id).orElse(null);
         if (theActualProduct != null) {
+            theActualProduct.setName(theNewProduct.getName());
+            theActualProduct.setPrice(theNewProduct.getPrice());
             // Actualizar el producto con los datos proporcionados
             return this.productRepository.save(theActualProduct);
         } else {

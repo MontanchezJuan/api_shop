@@ -20,7 +20,7 @@ import com.shop.shop.repositories.DeliveryRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/delivery")
+@RequestMapping("/deliveries")
 public class DeliveryController {
 
     @Autowired

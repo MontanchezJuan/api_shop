@@ -20,7 +20,7 @@ import com.shop.shop.repositories.CategoryRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/categories")
 public class CategoryController {
 
     @Autowired
