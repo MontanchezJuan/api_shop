@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 
 import com.shop.shop.models.Client;
 import com.shop.shop.repositories.ClientRepository;
+import com.shop.shop.services.EncryptionService;
 
 @CrossOrigin
 @RestController
@@ -25,6 +26,9 @@ public class ClientController {
 
     @Autowired
     private ClientRepository clientRepository; // Cambiado a ClientRepository
+
+    @Autowired
+    private EncryptionService EncryptionService;
 
     @GetMapping("")
     public List<Client> index() {
@@ -35,6 +39,8 @@ public class ClientController {
     @PostMapping
     public Client store(@RequestBody Client newClient) {
         // Lógica para crear un nuevo cliente
+        // Incriptando contraseña
+        newClient.setPassword(EncryptionService.convertirSHA256(newClient.getPassword()));
         return this.clientRepository.save(newClient);
     }
 
