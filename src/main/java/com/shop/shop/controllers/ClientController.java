@@ -45,7 +45,7 @@ public class ClientController {
     }
 
     @GetMapping("{id}")
-    public Client show(@PathVariable String id) {
+    public Client getOne(@PathVariable String id) {
         Client client = this.clientRepository
                 .findById(id)
                 .orElse(null);

@@ -38,14 +38,9 @@ public class ProductController {
         return this.productRepository.save(newProduct);
     }
 
-    @GetMapping("{id}")
-    public Product getOne(@PathVariable String id) {
-        Product product = this.productRepository.findById(id).orElse(null);
-        return product;
-    }
 
     @GetMapping("{id}")
-    public Product show(@PathVariable String id) {
+    public Product getOne(@PathVariable String id) {
         Product Product = this.productRepository
                 .findById(id)
                 .orElse(null);

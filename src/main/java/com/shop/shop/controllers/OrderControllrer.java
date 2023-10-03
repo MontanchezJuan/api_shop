@@ -37,7 +37,7 @@ public class OrderControllrer {
     }
 
     @GetMapping("{id}")
-    public Order show(@PathVariable String id) {
+    public Order getOne(@PathVariable String id) {
         Order order = this.orderRepository
                 .findById(id)
                 .orElse(null);
