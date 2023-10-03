@@ -24,7 +24,7 @@ import com.shop.shop.repositories.ProductRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/product-order")
+@RequestMapping("/product-order")
 public class ProductOrderController {
     @Autowired
     private ProductOrderRepository productOrderRepository; // Cambiado a productOrderRepository
@@ -44,7 +44,7 @@ public class ProductOrderController {
     public ProductOrder store(@PathVariable String product_id, @PathVariable String order_id) {
         Product theActualProduct = this.productRepository.findById(product_id).orElse(null);
         Order theActualOrder = this.orderRepository.findById(order_id).orElse(null);
-         if (theActualProduct != null && theActualOrder != null) {
+        if (theActualProduct != null && theActualOrder != null) {
             ProductOrder newProductOrder = new ProductOrder();
             newProductOrder.setProduct(theActualProduct);
             newProductOrder.setOrder(theActualOrder);

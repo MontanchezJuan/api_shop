@@ -21,7 +21,7 @@ import com.shop.shop.services.EncryptionService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/clients") // Ruta para el controlador de clientes
+@RequestMapping("/clients") // Ruta para el controlador de clientes
 public class ClientController {
 
     @Autowired

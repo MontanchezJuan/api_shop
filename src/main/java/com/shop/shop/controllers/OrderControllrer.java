@@ -19,7 +19,7 @@ import com.shop.shop.repositories.OrderRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/orders")
+@RequestMapping("/orders")
 public class OrderControllrer {
     @Autowired
     private OrderRepository orderRepository; // Cambiado a orderRepository

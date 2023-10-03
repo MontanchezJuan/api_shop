@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.shop.shop.models.Product;
 import com.shop.shop.repositories.ProductRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/products")
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
@@ -38,6 +37,7 @@ public class ProductController {
         // Lógica para crear un nuevo Product
         return this.productRepository.save(newProduct);
     }
+
     @GetMapping("{id}")
     public Product getOne(@PathVariable String id) {
         Product product = this.productRepository.findById(id).orElse(null);
