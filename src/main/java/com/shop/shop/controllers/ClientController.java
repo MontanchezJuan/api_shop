@@ -66,6 +66,7 @@ public class ClientController {
         }
     }
 
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void destroy(@PathVariable String id) {

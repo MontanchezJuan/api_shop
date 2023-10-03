@@ -60,6 +60,13 @@ public class ProductOrderController {
         return productOrder;
     }
 
+    @GetMapping("order_id/{order_id}")
+    public List<Product> filterByOrder(@PathVariable String id) {
+        ProductOrder productOrder = this.productOrderRepository.findById(id).orElse(null);
+        return null;
+    }
+    
+
     @PutMapping("{id}/product/{product_id}/order/{order_id}")
     public ProductOrder update(@PathVariable String id, @PathVariable String product_id,
             @PathVariable String order_id, @RequestBody ProductOrder NewProductOrder) {

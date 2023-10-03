@@ -3,6 +3,7 @@ package com.shop.shop.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.BooleanOperators.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,18 +53,17 @@ public class OrderControllrer {
     @PutMapping("{id}")
     public Order update(@PathVariable String id, @RequestBody Order theNewOrder) {
         Order theActualOrder = this.orderRepository.findById(id).orElse(null);
-        Client theActualClient = this.clientRepository.findById(theNewOrder.getClient_id()).orElse(null);
-        if (theActualOrder != null && theActualClient != null) {
+        if (theActualOrder != null) {
             theActualOrder.setDate(theNewOrder.getDate());
             theActualOrder.setPaymentMethod(theNewOrder.getPaymentMethod());
             theActualOrder.setAddress(theNewOrder.getAddress());
-            theActualOrder.setClient(theActualClient);
             // Actualizar la orden con los datos proporcionados
             return this.orderRepository.save(theActualOrder);
         } else {
             return null;
         }
     }
+
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
@@ -73,4 +73,31 @@ public class OrderControllrer {
             this.orderRepository.delete(theActualOrder);
         }
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("order/{order_id}/client/{client_id}")
+    public Order matchOrderClient(@PathVariable String order_id, @PathVariable String client_id){
+        Order theActualOrder = this.orderRepository.findById(order_id).orElse(null);
+        Client theActualClient = this.clientRepository.findById(client_id).orElse(null);
+        if(theActualOrder != null && theActualClient != null){
+            theActualOrder.setClient(theActualClient);
+            return this.orderRepository.save(theActualOrder);
+        }
+        return null;
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("{order_id}/client")
+    public Order unMatchOrderRole(@PathVariable String order_id) {
+        Order theActualOrder = this.orderRepository.findById(order_id)
+                .orElse(null);
+        if(theActualOrder!=null) {
+            theActualOrder.setClient(null);
+            return this.orderRepository.save(theActualOrder);
+        }else{
+            return null;
+        }
+    }
 }
+
+

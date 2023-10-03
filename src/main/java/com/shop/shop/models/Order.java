@@ -24,9 +24,6 @@ public class Order {
         this.address = address;
     }
 
-    public String getClient_id(){
-        return client.get_id();
-    }
 
     public String get_id() {
         return _id;
