@@ -24,6 +24,10 @@ public class Order {
         this.address = address;
     }
 
+    public String getClient_id(){
+        return client.get_id();
+    }
+
     public String get_id() {
         return _id;
     }
@@ -44,7 +48,7 @@ public class Order {
         return paymentMethod;
     }
 
-    public void setEmail(String paymentMethod) {
+    public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 

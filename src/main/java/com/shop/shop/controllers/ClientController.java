@@ -56,6 +56,9 @@ public class ClientController {
     public Client update(@PathVariable String id, @RequestBody Client theNewClient) {
         Client theActualClient = this.clientRepository.findById(id).orElse(null);
         if (theActualClient != null) {
+            theActualClient.setName(theNewClient.getName());
+            theActualClient.setEmail(theNewClient.getEmail());
+            theActualClient.setPassword(EncryptionService.convertirSHA256(theNewClient.getPassword()));
             // Actualizar el cliente con los datos proporcionados
             return this.clientRepository.save(theActualClient);
         } else {

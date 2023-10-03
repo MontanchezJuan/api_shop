@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.shop.shop.models.Client;
 import com.shop.shop.models.Order;
+import com.shop.shop.repositories.ClientRepository;
 import com.shop.shop.repositories.OrderRepository;
 
 @CrossOrigin
@@ -23,6 +26,8 @@ import com.shop.shop.repositories.OrderRepository;
 public class OrderControllrer {
     @Autowired
     private OrderRepository orderRepository; // Cambiado a orderRepository
+    @Autowired
+    private ClientRepository clientRepository;
 
     @GetMapping("")
     public List<Order> index() {
@@ -43,11 +48,16 @@ public class OrderControllrer {
                 .orElse(null);
         return order;
     }
-
+    
     @PutMapping("{id}")
     public Order update(@PathVariable String id, @RequestBody Order theNewOrder) {
         Order theActualOrder = this.orderRepository.findById(id).orElse(null);
-        if (theActualOrder != null) {
+        Client theActualClient = this.clientRepository.findById(theNewOrder.getClient_id()).orElse(null);
+        if (theActualOrder != null && theActualClient != null) {
+            theActualOrder.setDate(theNewOrder.getDate());
+            theActualOrder.setPaymentMethod(theNewOrder.getPaymentMethod());
+            theActualOrder.setAddress(theNewOrder.getAddress());
+            theActualOrder.setClient(theActualClient);
             // Actualizar la orden con los datos proporcionados
             return this.orderRepository.save(theActualOrder);
         } else {
