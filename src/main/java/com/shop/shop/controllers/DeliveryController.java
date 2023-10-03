@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shop.shop.models.Delivery;
+import com.shop.shop.models.Order;
 import com.shop.shop.repositories.DeliveryRepository;
+import com.shop.shop.repositories.OrderRepository;
 
 @CrossOrigin
 @RestController
@@ -25,6 +27,9 @@ public class DeliveryController {
 
     @Autowired
     private DeliveryRepository deliveryRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @GetMapping("")
     public List<Delivery> list() {
@@ -62,4 +67,30 @@ public class DeliveryController {
             this.deliveryRepository.delete(delivery);
         }
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("{delivery_id}/order/{order_id}")
+    public Delivery matchDeliveryOrder(@PathVariable String delivery_id, @PathVariable String order_id) {
+        Delivery currentDelivery = this.deliveryRepository.findById(delivery_id).orElse(null);
+        Order currentOrder = this.orderRepository.findById(order_id).orElse(null);
+        if (currentDelivery != null && currentOrder != null) {
+            currentDelivery.setOrder(currentOrder);
+            return this.deliveryRepository.save(currentDelivery);
+        } else {
+            return null;
+        }
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("{delivery_id}/order")
+    public Delivery unmatchDeliveryOrder(@PathVariable String delivery_id) {
+        Delivery currentDelivery = this.deliveryRepository.findById(delivery_id).orElse(null);
+        if (currentDelivery != null) {
+            currentDelivery.setOrder(null);
+            return this.deliveryRepository.save(currentDelivery);
+        } else {
+            return null;
+        }
+    }
+
 }

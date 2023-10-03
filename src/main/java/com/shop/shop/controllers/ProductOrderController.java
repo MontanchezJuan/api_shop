@@ -60,12 +60,23 @@ public class ProductOrderController {
         return productOrder;
     }
 
-    @GetMapping("order_id/{order_id}")
-    public List<Product> filterByOrder(@PathVariable String id) {
-        ProductOrder productOrder = this.productOrderRepository.findById(id).orElse(null);
-        return null;
-    }
-    
+    // Trying to create a function to returns a list of products with a order id
+    // @GetMapping("order_id/{order_id}")
+    // public List<Product> filterByOrder(@PathVariable String id) {
+    // Order currentOrder = this.orderRepository.findById(id).orElse(null);
+    // if (currentOrder != null) {
+    // List<Product> totalProducts = Lists.newArrayList();
+    // List<ProductOrder> productOrder = this.productOrderRepository.findAll();
+    // for (ProductOrder currentProductOrder : productOrder) {
+    // if (currentOrder == currentProductOrder.getOrder()) {
+    // totalProducts.add(currentProductOrder.getProduct());
+    // }
+    // }
+    // return totalProducts;
+
+    // }
+    // return null;
+    // }
 
     @PutMapping("{id}/product/{product_id}/order/{order_id}")
     public ProductOrder update(@PathVariable String id, @PathVariable String product_id,
